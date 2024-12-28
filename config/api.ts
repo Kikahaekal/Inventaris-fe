@@ -33,7 +33,7 @@ const api = {
                 if (res.data.message) {
                     message.success(res.data.message);
                 }
-            } else if (res.data.message) {
+            } else if (!res.data.success && res.data.message) {
                 message.error(res.data.message);
             }
 
@@ -52,7 +52,7 @@ const api = {
                 if (res.data.message) {
                     message.success(res.data.message);
                 }
-            } else if (res.data.message) {
+            } else if (!res.data.success && res.data.message) {
                 message.error(res.data.message);
             }
 

@@ -20,15 +20,12 @@ export default function RegisterPage() {
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
         setIsLoading(true);
         try {
-            const res = await api.post('/users/register', values);
-            if(res) {
-                form.resetFields();
-            }
+            await api.post('/users/register', values);
+            location.href = "/";
         } catch (error) {
             console.error('Error:', error);
         } finally {
             setIsLoading(false);
-            // location.href = "/";
         }
     };
 
