@@ -3,8 +3,6 @@ import { Button } from "antd";
 import api from "@/config/api";
 
 const DashboardPage = () => {
-
-
     const handleLogout = async () => {
         try {
             await api.post('users/logout', {});
