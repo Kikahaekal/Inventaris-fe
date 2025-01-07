@@ -1,9 +1,10 @@
 "use client";
-import api from "@/config/api";
 import { Button } from "antd";
-
+import api from "@/config/api";
 
 const DashboardPage = () => {
+
+
     const handleLogout = async () => {
         try {
             await api.post('users/logout', {});
@@ -12,7 +13,6 @@ const DashboardPage = () => {
             console.log(error);
         }
     }
-
     return (
         <Button color="danger" variant="solid" onClick={handleLogout}>Logout</Button>
     )

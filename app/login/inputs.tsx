@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import type { FormProps } from 'antd';
 import { Form, Input, Spin } from 'antd';
-// import Link from 'next/link';
 import { useForm } from 'antd/es/form/Form';
 import api from '@/config/api';
 import Link from 'next/link';
-// import { cookies } from 'next/headers';
 
 type FieldType = {
   username?: string,
@@ -20,11 +18,9 @@ const Inputs = () => {
     setIsLoading(true);
 
     try {
-      // const cookieStore = await cookies();
       const res = await api.post('users/auth', values);
       console.log(res);
       if (res.success) {
-        // cookieStore.set('authToken', res.data.token);
         document.cookie = `authToken=${res.token}; path=/`;
         location.href = '/dashboard';
       }
