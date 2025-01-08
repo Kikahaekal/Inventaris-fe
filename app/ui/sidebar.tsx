@@ -29,7 +29,11 @@ const SideBar = () => {
             onCollapse={(collapsed, type) => {
                 console.log(collapsed, type);
             }}
+            
+
+            
         >
+            <div className="absolute inset-0 bg-white/40" />
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 to-white" />
             <div className="relative px-16 pt-5">
                 <div className="bg-white rounded-xl flex gap-3 items-center justify-center">
@@ -38,8 +42,8 @@ const SideBar = () => {
                 </div>
 
                 <div className="mt-7 text-2xl text-[#F26B0F]">
-                    <Link href="/dashboard" className={`flex items-center justify-center ${
-                        pathname == "/dashboard" ? "bg-white rounded-l-xl" : 
+                    <Link href="/dashboard" className={`flex items-center justify-center relative p-2 ${
+                        pathname == "/dashboard" ? "before:absolute before:inset-0 before:bg-white before:right-[-100px] before:z-[-1] before:rounded-l-xl" : 
                         "-"}
                     `}>
                         <Image src={homeTitle} alt="homeTitle" width={50}/>
