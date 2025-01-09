@@ -28,11 +28,11 @@ const DashboardPage = () => {
                 </Card>
                 <div className="flex flex-col gap-8">
                     <Card>
-                    <p className="text-2xl font-bold">Pembeli Teratas</p>
+                    <p className="text-2xl font-bold">Barang Teratas</p>
                     <ol className="text-xl list-decimal pl-5">
-                        <li>Asep</li>
-                        <li>Sunandar</li>
-                        <li>Doe</li>
+                        <li>Komputer</li>
+                        <li>Laptop</li>
+                        <li>Handphone</li>
                     </ol>
                     </Card>
                     <div className="bg-[#F26B0F] text-white p-4 rounded-md font-bold text-center">
