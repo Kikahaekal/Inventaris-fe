@@ -14,7 +14,7 @@ const api = {
         try {
             const res = await server.get(url, {params});
             
-            if(!res.data.success && isClient){
+            if(!res.data.success){
                 message.error(res.data.message);
             }
 

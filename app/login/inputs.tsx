@@ -21,7 +21,8 @@ const Inputs = () => {
       const res = await api.post('users/auth', values);
       console.log(res);
       if (res.success) {
-        document.cookie = `authToken=${res.token}; path=/`;
+        document.cookie = `authToken=${res.token}; path=/;`
+        localStorage.setItem('userId', res.userId);
         location.href = '/dashboard';
       }
     } catch (error) {
