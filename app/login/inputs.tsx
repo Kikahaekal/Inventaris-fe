@@ -31,6 +31,7 @@ const Inputs = () => {
       setIsLoading(false);
     }
 
+    form.resetFields();
   };
 
   const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
