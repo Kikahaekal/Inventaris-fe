@@ -16,15 +16,23 @@ type ListBarangPageProps = {
 
 const ListBarangPage = ({ params }: ListBarangPageProps) => {
     const [barangs, setBarangs] = useState<Barang[]>([]);
-    const [modalOpen, setModalOpen] = useState(false);
+    const [inputModalOpen, setInputModalOpen] = useState(false);
+    const [detailModalOpen, setDetailModalOpen] = useState(false);
 
-    const showModal = () => {
-        setModalOpen(true);
+    const showModal = ({type}: {type: string}) => {
+        if (type == "input"){
+            setInputModalOpen(true);
+        } else if (type == "detail") {
+            setDetailModalOpen(true);
+        } else {
+            console.log("Undefined Modal");
+        }
     };
     
     const fetchBarang = useCallback(async () => {
         try {
             const res = await api.get(`barang/get-barang/${params.userId}`, {});
+
             if (res.success) {
                 setBarangs(res.data);
             }
@@ -37,18 +45,23 @@ const ListBarangPage = ({ params }: ListBarangPageProps) => {
         fetchBarang();
     }, [fetchBarang]);
 
-    const closeModal = () => {
-        setModalOpen(false);
-        fetchBarang();
+    const closeModal = ({type}: {type: string}) => {
+        if (type == "input"){
+            setInputModalOpen(false);
+        } else if (type == "detail") {
+            setDetailModalOpen(false);
+        } else {
+            console.log("Undefined Modal");
+        }
     }
 
     return (
         <div className="text-[#F26B0F]">
             <h1 className="text-6xl mb-24">List Barang</h1>
-            <button onClick={showModal} type="button" className="bg-[#F26B0F] text-white float-right mb-3 px-12 py-2 rounded-md hover:bg-[#b75717] duration-150">
+            <button onClick={() => showModal({type: "input"})} type="button" className="bg-[#F26B0F] text-white float-right mb-3 px-12 py-2 rounded-md hover:bg-[#b75717] duration-150">
                 Tambah
             </button>
-            <InputModal modalOpen={modalOpen} closeModal={closeModal} onSuccess={fetchBarang}/>
+            <InputModal modalOpen={inputModalOpen} closeModal={() => closeModal({type: "input"})} onSuccess={fetchBarang}/>
             <DataTable data={barangs} />
         </div>
     )

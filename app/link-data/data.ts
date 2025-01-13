@@ -8,7 +8,7 @@ const Data = [
         text: "Dashboad"
     },
     {
-        path: `/dashboard/list-barang/${localStorage.getItem('userId')}`,
+        pathWithId: `/dashboard/list-barang/:userId`,
         icon: listIcon,
         text: "List Barang"
     }

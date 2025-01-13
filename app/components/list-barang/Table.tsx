@@ -27,7 +27,7 @@ const DataTable = ({data}: DataProps) => {
 
   const columns: TableColumnsType<DataType> = [
     {
-      title: 'Name',
+      title: 'Nama',
       dataIndex: 'name',
       filters: filter,
       filterMode: 'tree',
@@ -36,15 +36,31 @@ const DataTable = ({data}: DataProps) => {
       width: '30%',
     },
     {
-      title: 'Price',
+      title: 'Harga',
       dataIndex: 'price',
       sorter: (a, b) => a.price - b.price,
     },
     {
-      title: 'Stock',
+      title: 'Stok',
       dataIndex: 'stock',
       sorter: (a, b) => a.stock - b.stock,
     },
+    {
+      title: "Aksi",
+      render: (text, record) => (
+        <div className='flex gap-2 text-white'>
+          <button className='bg-green-700 px-4 py-1 rounded-md'>
+            Detail
+          </button>
+          <button className='bg-sky-500 px-4 py-1 rounded-md'>
+            Edit
+          </button>
+          <button className='bg-red-500 px-4 py-1 rounded-md'>
+            Hapus
+          </button>
+        </div>
+      )
+    }
   ];
   
   const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
