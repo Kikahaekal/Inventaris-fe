@@ -3,6 +3,7 @@ import { Table } from 'antd';
 import type { TableColumnsType, TableProps } from 'antd';
 
 interface DataType {
+  id: number,
   name: string;
   price: number;
   stock: number;
@@ -10,9 +11,11 @@ interface DataType {
 
 type DataProps = {
   data: DataType[],
+  handleDelete: (id: number) => void,
+  handleDetailModal: (id: number) => void,
 }
 
-const DataTable = ({data}: DataProps) => {
+const DataTable = ({data, handleDelete, handleDetailModal}: DataProps) => {
   const [filter, setFilter] = useState<{ text: string; value: string }[]>([]);
 
   useEffect(() => {
@@ -49,13 +52,13 @@ const DataTable = ({data}: DataProps) => {
       title: "Aksi",
       render: (text, record) => (
         <div className='flex gap-2 text-white'>
-          <button className='bg-green-700 px-4 py-1 rounded-md'>
+          <button className='bg-green-700 px-4 py-1 rounded-md' onClick={() => handleDetailModal(record.id)}>
             Detail
           </button>
           <button className='bg-sky-500 px-4 py-1 rounded-md'>
             Edit
           </button>
-          <button className='bg-red-500 px-4 py-1 rounded-md'>
+          <button className='bg-red-500 px-4 py-1 rounded-md' onClick={() => handleDelete(record.id)}>
             Hapus
           </button>
         </div>

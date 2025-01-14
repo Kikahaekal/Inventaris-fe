@@ -15,6 +15,8 @@ const DashboardLayout = ({ children }: LayoutProps) => {
     const handleLogout = async () => {
         try {
             await api.post('users/logout', {});
+            // menghapus cookie authToken
+            document.cookie = 'authToken=; path=/; max-age=0;';
             location.href = '/';
         } catch (error) {
             console.log(error);

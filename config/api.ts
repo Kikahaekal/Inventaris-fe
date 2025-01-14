@@ -15,6 +15,7 @@ const api = {
             const res = await server.get(url, {params});
             
             if (res.data.message) {
+                message.destroy();
                 if (res.data.success) {
                     message.success(res.data.message);
                 } else {

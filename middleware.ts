@@ -6,16 +6,15 @@ export default async function middleware(request: NextRequest) {
     const cookieStore = await cookies();
     const token = cookieStore.get('authToken');
 
-    // Cek apakah ada token di cookie dan user mencoba mengakses /dashboard
     if (request.nextUrl.pathname.startsWith('/dashboard')) {
         if (!token) {
-            return NextResponse.redirect(new URL('/', request.url)); // Redirect ke halaman utama jika tidak ada token
+            return NextResponse.redirect(new URL('/', request.url));
         }
     }
 
-    return NextResponse.next(); // Lanjutkan permintaan jika ada token atau tidak ada di /dashboard
+    return NextResponse.next();
 }
 
 export const config = {
-    matcher: ['/dashboard/:path*'],  // Hanya terapkan middleware di path /dashboard/*
+    matcher: ['/dashboard/:path*'], 
 };
