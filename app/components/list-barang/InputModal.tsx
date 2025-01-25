@@ -1,6 +1,8 @@
-import { Button, Form, Input, Modal } from "antd";
+import { useCategory } from "@/app/Context/CategoryContext";
+import { Button, Form, Input, Modal, Select, Space } from "antd";
 import { useForm } from "antd/es/form/Form";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import type { SelectProps } from 'antd';
 
 type InputModalProps = {
     modalOpen: boolean;
@@ -17,6 +19,19 @@ type FieldType = {
 const InputModal = ({ modalOpen, closeModal, onSuccess }: InputModalProps) => {
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [form] = useForm();
+
+    const categoryContext = useCategory();
+
+    if (!categoryContext) {
+        throw new Error('useCategory harus dipakai didalam komponen CategoryProvider');
+    }
+
+    const { category } = categoryContext;
+
+    const options: SelectProps["options"] = category.map((category) => ({
+        label: category.name,
+        value: category.id
+    }));
 
     const handleOk = async () => {
         try {
@@ -77,6 +92,17 @@ const InputModal = ({ modalOpen, closeModal, onSuccess }: InputModalProps) => {
                 >
                     <Input type="number" />
                 </Form.Item>
+                <Space style={{ width: '100%' }} direction="vertical">
+                    <Select
+                    mode="multiple"
+                    allowClear
+                    style={{ width: '100%' }}
+                    placeholder="Please select"
+                    // defaultValue={['a10', 'c12']}
+                    // onChange={handleChange}
+                    options={options}
+                    />
+                </Space>
             </Form>
         </Modal>
     );

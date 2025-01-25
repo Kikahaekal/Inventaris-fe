@@ -2,6 +2,7 @@
 import DetailModal from "@/app/components/list-barang/DetailModal";
 import InputModal from "@/app/components/list-barang/InputModal";
 import DataTable from "@/app/components/list-barang/Table";
+import { CategoryProvider } from "@/app/Context/CategoryContext";
 import api from "@/config/api";
 import { useCallback, useEffect, useState } from "react";
 
@@ -72,22 +73,24 @@ const ListBarangPage = ({ params }: ListBarangPageProps) => {
     }
 
     return (
-        <div className="text-[#F26B0F]">
-            <h1 className="text-6xl mb-24">List Barang</h1>
-            <button onClick={() => showModal({ type: "input" })} type="button" className="bg-[#F26B0F] text-white float-right mb-3 px-12 py-2 rounded-md hover:bg-[#b75717] duration-150">
-                Tambah
-            </button>
-            {detailModalOpen && (
-                <DetailModal
-                    key={selectedBarangId} // Memaksa unmount dan mount ulang saat `selectedBarangId` berubah
-                    modalOpen={detailModalOpen}
-                    closeModal={() => closeModal({ type: "detail" })}
-                    barangId={selectedBarangId}
-                />
-            )}
-            <InputModal modalOpen={inputModalOpen} closeModal={() => closeModal({ type: "input" })} onSuccess={fetchBarang} />
-            <DataTable data={barangs} handleDelete={handleDelete} handleDetailModal={(id) => showModal({ type: "detail", id })} />
-        </div>
+        <CategoryProvider>
+            <div className="text-[#F26B0F]">
+                <h1 className="text-6xl mb-24">List Barang</h1>
+                <button onClick={() => showModal({ type: "input" })} type="button" className="bg-[#F26B0F] text-white float-right mb-3 px-12 py-2 rounded-md hover:bg-[#b75717] duration-150">
+                    Tambah
+                </button>
+                {detailModalOpen && (
+                    <DetailModal
+                        key={selectedBarangId} // Memaksa unmount dan mount ulang saat `selectedBarangId` berubah
+                        modalOpen={detailModalOpen}
+                        closeModal={() => closeModal({ type: "detail" })}
+                        barangId={selectedBarangId}
+                    />
+                )}
+                <InputModal modalOpen={inputModalOpen} closeModal={() => closeModal({ type: "input" })} onSuccess={fetchBarang} />
+                <DataTable data={barangs} handleDelete={handleDelete} handleDetailModal={(id) => showModal({ type: "detail", id })} />
+            </div>
+        </CategoryProvider>
     )
 }
 
