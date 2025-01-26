@@ -1,22 +1,25 @@
 import { useCategory } from "@/app/Context/CategoryContext";
-import { Button, Form, Input, Modal, Select, Space } from "antd";
+import { Button, Form, Input, message, Modal, Select, Space } from "antd";
 import { useForm } from "antd/es/form/Form";
-import { useContext, useState } from "react";
-import type { SelectProps } from 'antd';
+import { useState } from "react";
+import type { FormProps, SelectProps } from 'antd';
+import api from "@/config/api";
 
 type InputModalProps = {
     modalOpen: boolean;
+    userId: string;
     closeModal: () => void;
-    onSuccess: () => void;
+    getBarang: () => void;
 };
 
 type FieldType = {
     name: string;
     price: number;
     stock: number;
+    categoryIds: number[];
 };
 
-const InputModal = ({ modalOpen, closeModal, onSuccess }: InputModalProps) => {
+const InputModal = ({ modalOpen, closeModal, getBarang, userId }: InputModalProps) => {
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [form] = useForm();
 
@@ -33,14 +36,32 @@ const InputModal = ({ modalOpen, closeModal, onSuccess }: InputModalProps) => {
         value: category.id
     }));
 
-    const handleOk = async () => {
+    const handleOk: FormProps<FieldType>['onFinish'] = async (values) => {
         try {
+            console.log(values);
             setConfirmLoading(true);
-            onSuccess();
-            setTimeout(() => {
-                closeModal();
+
+            const data = {
+                ...values,
+                userId: Number(userId),
+                price: Number(values.price),
+                stock: Number(values.stock),
+                categoryIds: values.categoryIds
+            }
+
+            const res = await api.post("barang/create", data);
+
+            if(res.success) {
+                getBarang();
+                setTimeout(() => {
+                    closeModal();
+                    setConfirmLoading(false);
+                }, 1000);
+                form.resetFields();
+            } else {
+                form.resetFields();
                 setConfirmLoading(false);
-            }, 2000);
+            }
         } catch (errorInfo) {
             console.log("Failed:", errorInfo);
         }
@@ -50,7 +71,7 @@ const InputModal = ({ modalOpen, closeModal, onSuccess }: InputModalProps) => {
         <Modal
             title="Input Form"
             open={modalOpen}
-            onOk={handleOk}
+            onOk={() => form.submit()}
             confirmLoading={confirmLoading}
             onCancel={closeModal}
             footer={[
@@ -92,17 +113,22 @@ const InputModal = ({ modalOpen, closeModal, onSuccess }: InputModalProps) => {
                 >
                     <Input type="number" />
                 </Form.Item>
-                <Space style={{ width: '100%' }} direction="vertical">
-                    <Select
-                    mode="multiple"
-                    allowClear
-                    style={{ width: '100%' }}
-                    placeholder="Please select"
-                    // defaultValue={['a10', 'c12']}
-                    // onChange={handleChange}
-                    options={options}
-                    />
-                </Space>
+                <Form.Item
+                    name="categoryIds"
+                    label="Kategori"
+                    rules={[{ required: true, message: "Please select at least one category!" }]}
+                >
+                    <Space style={{ width: '100%' }} direction="vertical">
+                        <Select
+                        mode="multiple"
+                        allowClear
+                        style={{ width: '100%' }}
+                        placeholder="Please select"
+                        options={options}
+                        onChange={(ids) => form.setFieldsValue({ categoryIds: ids })}
+                        />
+                    </Space>
+                </Form.Item>
             </Form>
         </Modal>
     );

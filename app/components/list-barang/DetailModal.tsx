@@ -2,11 +2,17 @@ import api from "@/config/api";
 import { Modal } from "antd";
 import { useEffect, useState } from "react";
 
+type Category = {
+    id: number,
+    name: string
+}
+
 type BarangDetail = {
     id: number;
     name: string;
     price: number;
     stock: number;
+    categories: Category[]; 
 };
 
 type DetailModalProps = {
@@ -37,6 +43,8 @@ const DetailModal = ({ modalOpen, closeModal, barangId }: DetailModalProps) => {
         getDetailBarang();
     }, [barangId]);
 
+    console.log(detailBarang);
+
     return (
         <Modal
             title="Detail Barang"
@@ -49,6 +57,7 @@ const DetailModal = ({ modalOpen, closeModal, barangId }: DetailModalProps) => {
                     <p>Nama: {detailBarang.name}</p>
                     <p>Harga: {detailBarang.price}</p>
                     <p>Stok: {detailBarang.stock}</p>
+                    <p>Kategori: {detailBarang.categories.map((category) => category.name) + " "}</p>
                 </div>
             ) : (
                 <p>Memuat data barang...</p>

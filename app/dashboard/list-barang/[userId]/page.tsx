@@ -87,7 +87,7 @@ const ListBarangPage = ({ params }: ListBarangPageProps) => {
                         barangId={selectedBarangId}
                     />
                 )}
-                <InputModal modalOpen={inputModalOpen} closeModal={() => closeModal({ type: "input" })} onSuccess={fetchBarang} />
+                <InputModal modalOpen={inputModalOpen} closeModal={() => closeModal({ type: "input" })} getBarang={fetchBarang} userId={params.userId}/>
                 <DataTable data={barangs} handleDelete={handleDelete} handleDetailModal={(id) => showModal({ type: "detail", id })} />
             </div>
         </CategoryProvider>
