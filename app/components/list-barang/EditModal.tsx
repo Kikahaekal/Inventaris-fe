@@ -1,15 +1,20 @@
 import { useCategory } from "@/app/Context/CategoryContext";
-import { Button, Form, Input, Modal, Select, Space } from "antd";
-import { useForm } from "antd/es/form/Form";
-import { useState } from "react";
-import type { FormProps, SelectProps } from 'antd';
 import api from "@/config/api";
+import { Button, Form, Input, Modal, Select, SelectProps, Space } from "antd";
+import { FormProps, useForm } from "antd/es/form/Form";
+import { useEffect, useState } from "react";
 
-type InputModalProps = {
+type Category = {
+    id: number,
+    name: string
+}
+
+type EditModalProps = {
     modalOpen: boolean;
     userId: string;
     closeModal: () => void;
     getBarang: () => void;
+    barangId: number | undefined;
 };
 
 type FieldType = {
@@ -19,22 +24,45 @@ type FieldType = {
     categoryIds: number[];
 };
 
-const InputModal = ({ modalOpen, closeModal, getBarang, userId }: InputModalProps) => {
+export const EditModal = ({modalOpen, userId, closeModal, getBarang, barangId}: EditModalProps) => {
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [form] = useForm();
 
+    
     const categoryContext = useCategory();
-
+    
     if (!categoryContext) {
         throw new Error('useCategory harus dipakai didalam komponen CategoryProvider');
     }
-
-    const { category } = categoryContext;
-
+    
+    const {category} = categoryContext;
+    
     const options: SelectProps["options"] = category.map((category) => ({
         label: category.name,
         value: category.id
-    }));
+    }))
+
+    useEffect(() => {
+        const getDetailBarang = async () => {
+            if (!barangId) return;
+            try {
+                const res = await api.get(`barang/data-barang/${barangId}`, {});
+
+                if (res.success) {
+                    form.setFieldsValue({
+                        name: res.data.name,
+                        price: res.data.price,
+                        stock: res.data.stock,
+                        categoryIds: res.data.categoryIds.map((category: Category) => category.id)
+                    })
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        getDetailBarang();
+    }, [barangId, form]);
 
     const handleOk: FormProps<FieldType>['onFinish'] = async (values) => {
         try {
@@ -49,7 +77,7 @@ const InputModal = ({ modalOpen, closeModal, getBarang, userId }: InputModalProp
                 categoryIds: values.categoryIds
             }
 
-            const res = await api.post("barang/create", data);
+            const res = await api.post(`barang/edit/${barangId}`, data);
 
             if(res.success) {
                 getBarang();
@@ -132,6 +160,4 @@ const InputModal = ({ modalOpen, closeModal, getBarang, userId }: InputModalProp
             </Form>
         </Modal>
     );
-};
-
-export default InputModal;
+}

@@ -1,11 +1,10 @@
 "use client";
 import React from 'react';
-import { Layout, Menu } from 'antd';
-import SideBar from '../ui/sidebar';
-import LinkList from '../components/sidebar/LinkList';
-const { Header, Content, Footer } = Layout;
 import data from "../link-data/data";
 import api from '@/config/api';
+import { Layout } from 'antd';
+import SideBar from '../ui/sidebar';
+import LinkList from '../components/sidebar/LinkList';
 
 type LayoutProps = {
     children: React.ReactNode
@@ -29,9 +28,7 @@ const DashboardLayout = ({ children }: LayoutProps) => {
                 <LinkList data={data} handleLogout={handleLogout}/>
            </SideBar>
            <Layout className='bg-white'>
-                <Content className='p-12'>
-                    {children}
-                </Content>
+                {children}
             </Layout>
         </Layout>
     )

@@ -14,18 +14,18 @@ const api = {
         try {
             const res = await server.get(url, {params});
             
-            if (res.data.message) {
-                message.destroy();
-                if (res.data.success) {
-                    message.success(res.data.message);
-                } else {
-                    message.error(res.data.message);
-                }
-            }
+            // if (res.data.message) {
+            //     message.destroy();
+            //     if (res.data.success) {
+            //         message.success(res.data.message);
+            //     } else {
+            //         message.error(res.data.message);
+            //     }
+            // }
 
             return res.data;
         } catch (error: any) {
-            message.error(error.response?.data?.message || 'An error occurred');
+            // message.error(error.response?.data?.message || 'An error occurred');
             throw error;
         }
     },

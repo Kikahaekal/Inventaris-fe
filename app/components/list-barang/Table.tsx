@@ -13,9 +13,10 @@ type DataProps = {
   data: DataType[],
   handleDelete: (id: number) => void,
   handleDetailModal: (id: number) => void,
+  handleEditModal: (id: number) => void,
 }
 
-const DataTable = ({data, handleDelete, handleDetailModal}: DataProps) => {
+const DataTable = ({data, handleDelete, handleDetailModal, handleEditModal}: DataProps) => {
   const [filter, setFilter] = useState<{ text: string; value: string }[]>([]);
 
   useEffect(() => {
@@ -55,7 +56,7 @@ const DataTable = ({data, handleDelete, handleDetailModal}: DataProps) => {
           <button className='bg-green-700 px-4 py-1 rounded-md' onClick={() => handleDetailModal(record.id)}>
             Detail
           </button>
-          <button className='bg-sky-500 px-4 py-1 rounded-md'>
+          <button className='bg-sky-500 px-4 py-1 rounded-md' onClick={() => handleEditModal(record.id)}>
             Edit
           </button>
           <button className='bg-red-500 px-4 py-1 rounded-md' onClick={() => handleDelete(record.id)}>
