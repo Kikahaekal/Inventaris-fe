@@ -27,7 +27,6 @@ type FieldType = {
 export const EditModal = ({modalOpen, userId, closeModal, getBarang, barangId}: EditModalProps) => {
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [form] = useForm();
-
     
     const categoryContext = useCategory();
     
@@ -53,7 +52,7 @@ export const EditModal = ({modalOpen, userId, closeModal, getBarang, barangId}: 
                         name: res.data.name,
                         price: res.data.price,
                         stock: res.data.stock,
-                        categoryIds: res.data.categoryIds.map((category: Category) => category.id)
+                        categoryIds: res.data.categoryIds?.map((category: Category) => category.id || [])
                     })
                 }
             } catch (error) {
@@ -77,7 +76,7 @@ export const EditModal = ({modalOpen, userId, closeModal, getBarang, barangId}: 
                 categoryIds: values.categoryIds
             }
 
-            const res = await api.post(`barang/edit/${barangId}`, data);
+            const res = await api.put(`barang/edit/${barangId}`, data);
 
             if(res.success) {
                 getBarang();
@@ -85,9 +84,7 @@ export const EditModal = ({modalOpen, userId, closeModal, getBarang, barangId}: 
                     closeModal();
                     setConfirmLoading(false);
                 }, 1000);
-                form.resetFields();
             } else {
-                form.resetFields();
                 setConfirmLoading(false);
             }
         } catch (errorInfo) {
@@ -97,7 +94,7 @@ export const EditModal = ({modalOpen, userId, closeModal, getBarang, barangId}: 
 
     return (
         <Modal
-            title="Input Form"
+            title="Edit Form"
             open={modalOpen}
             onOk={() => form.submit()}
             confirmLoading={confirmLoading}

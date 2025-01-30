@@ -8,6 +8,7 @@ type Category = {
 
 type CategoryContextType = {
     category: Category[];
+    refreshCategory: () => void;
 }
 
 const CategoryContext = createContext<CategoryContextType | undefined>(undefined);
@@ -30,7 +31,7 @@ export const CategoryProvider = ({children}: {children: React.ReactNode}) => {
     }, [fetchCategory])
 
     return (
-        <CategoryContext.Provider value={{ category }}>
+        <CategoryContext.Provider value={{ category, refreshCategory: fetchCategory }}>
             {children}
         </CategoryContext.Provider>
     )

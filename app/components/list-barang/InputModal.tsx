@@ -59,8 +59,8 @@ const InputModal = ({ modalOpen, closeModal, getBarang, userId }: InputModalProp
                 }, 1000);
                 form.resetFields();
             } else {
-                form.resetFields();
                 setConfirmLoading(false);
+                form.resetFields();
             }
         } catch (errorInfo) {
             console.log("Failed:", errorInfo);

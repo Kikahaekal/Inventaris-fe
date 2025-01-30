@@ -41,7 +41,9 @@ const DetailModal = ({ modalOpen, closeModal, barangId }: DetailModalProps) => {
         }
 
         getDetailBarang();
-    }, [barangId]);
+    }, [barangId, modalOpen]);
+
+    
 
     console.log(detailBarang);
 

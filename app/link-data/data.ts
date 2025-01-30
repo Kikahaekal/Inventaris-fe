@@ -1,6 +1,7 @@
 import homeIcon from "../../public/home.png";
 import listIcon from "../../public/list.png";
 import categoryIcon from "../../public/category.png";
+import transactionIcon from "../../public/transaction.png";
 
 const Data = [
     {
@@ -17,6 +18,11 @@ const Data = [
         path: "/dashboard/list-category",
         icon: categoryIcon,
         text: "List Kategori"
+    },
+    {
+        pathWithId: "/dashboard/list-transaksi/:userId",
+        icon: transactionIcon,
+        text: "List Transaksi"
     }
 ]
 
